@@ -4,7 +4,8 @@ from django.utils import timezone
 from .models import Blog
 
 def home(request):
-    return render(request, 'blogs/home.html')
+    blogs = Blog.objects
+    return render(request, 'blogs/home.html', {'blogs': blogs})
 
 def detail(request, blog_id):
     blog = get_object_or_404(Blog, pk = blog_id)
@@ -26,3 +27,11 @@ def create(request):
             return render(request, 'blogs/create.html', {'error': "All fields are required"})
     else:
         return render(request, 'blogs/create.html')
+
+@login_required(login_url = "/accounts/signup")
+def like_blog(request, blog_id):
+    if request.method == 'POST':
+        blog = get_object_or_404(Blog, pk = blog_id)
+        blog.likes_total += 1
+        blog.save()
+        return redirect('/blogs/'+str(blog.id))
