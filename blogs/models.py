@@ -5,6 +5,7 @@ class Blog(models.Model):
     title = models.CharField(max_length = 255)
     pub_date = models.DateTimeField()
     body = models.TextField()
+    category = models.CharField(max_length = 20, default = 'Opinion')
     image = models.ImageField(upload_to = 'images/')
     likes_total = models.IntegerField(default = 0)
     author = models.ForeignKey(User, on_delete = models.CASCADE)

@@ -7,6 +7,10 @@ def home(request):
     blogs = Blog.objects
     return render(request, 'blogs/home.html', {'blogs': blogs})
 
+def category(request, cat):
+    blogs = Blog.objects
+    return render(request, 'blogs/category.html', {'blogs': blogs, 'cat': cat})
+
 def detail(request, blog_id):
     blog = get_object_or_404(Blog, pk = blog_id)
     return render(request, 'blogs/detail.html', {'blog': blog})
@@ -14,12 +18,13 @@ def detail(request, blog_id):
 @login_required(login_url = "/accounts/signup")
 def create(request):
     if request.method == 'POST':
-        if request.POST['title'] and request.POST['body'] and request.FILES['image']:
+        if request.POST['title'] and request.POST['body'] and request.FILES['image'] and request.POST['category']:
             blog = Blog()
             blog.title = request.POST['title']
             blog.body = request.POST['body']
             blog.image = request.FILES['image']
             blog.pub_date = timezone.datetime.now()
+            blog.category = request.POST['category']
             blog.author = request.user
             blog.save()
             return redirect('/blogs/'+str(blog.id))
