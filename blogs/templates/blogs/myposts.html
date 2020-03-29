@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<main role="main" class="container">
+  <div class="row">
+    <div class="blog-main">
+      <h3 class="pb-4 mb-4 font-italic border-bottom">
+      Your blogs
+      </h3>
+      {% for blog in blogs.all %}
+      <div class="row">
+        <div class="col-10">
+          <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+            <div class="col p-4 d-flex flex-column position-static">
+              <strong class="d-inline-block mb-2 text-primary">{{ blog.category }}</strong>
+              <h3 class="mb-0">{{ blog.title }}</h3>
+              <div class="mb-1 text-muted">{{ blog.pub_date_pretty }} &nbsp <span class="oi oi-thumb-up"></span> {{ blog.likes_total }}</div>
+              <p class="card-text mb-auto">{{ blog.summary }}</p>
+              <a href="{% url 'detail' blog.id %}" class="stretched-link">Continue reading</a>
+            </div>
+            <div class="col-auto d-none d-lg-block">
+              <img src="{{ blog.image.url }}" class="bd-placeholder-img" width="200" height="200" alt="">
+            </div>
+          </div>
+        </div>
+        <div class="col-2">
+          <div class="col p-4">
+            <a class="btn btn-danger" href="javascript:{document.getElementById('delete{{blog.id}}').submit();}" onclick=""><span class="oi oi-delete"></span> Delete</a>
+            <form id = "delete{{blog.id}}" action="{% url 'delete' blog.id %}" method="POST">
+              {% csrf_token %}
+              <input type="hidden" />
+            </form>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div><!-- /.blog-main -->
+  </div><!-- /.row -->
+</main><!-- /.container -->
+
+{% endblock %}

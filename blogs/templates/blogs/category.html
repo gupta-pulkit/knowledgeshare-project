@@ -38,7 +38,7 @@
           <div class="col p-4 d-flex flex-column position-static">
             <strong class="d-inline-block mb-2 text-primary">{{ blog.category }}</strong>
             <h3 class="mb-0">{{ blog.title }}</h3>
-            <div class="mb-1 text-muted">{{ blog.pub_date_pretty }}</div>
+            <div class="mb-1 text-muted">{{ blog.pub_date_pretty }} &nbsp <span class="oi oi-thumb-up"></span> {{ blog.likes_total }}</div>
             <p class="card-text mb-auto">{{ blog.summary }}</p>
             <a href="{% url 'detail' blog.id %}" class="stretched-link">Continue reading</a>
           </div>
